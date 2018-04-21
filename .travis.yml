@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- 8.11.1
+env:
+- NODE_ENV=test
+services:
+- postgresql
+before_script:
+- psql -c 'create database blog;' -U postgres
+- "./node_modules/.bin/sequelize db:migrate"
+deploy:
+  provider: heroku
+  api_key:
+    secure: Muciqga20l4K7ztyddE7OAeJCI7cTbImCaZYoRpXX1qKSCQ1fKulWejANow8g1SrdrHoNnLRqVrxCvVMD6e/yXjk3EzF5yOFpA5mbcHcJY29KiP9vLuJkDpBWmK5NJv+fOYsmJVrDxNKZhRmALtJu6dw/C9RfG7OU39oyK4PmwtT8FgyHT4RowLFtSB+So/3UAMO3wALTKRpsdXU9MeOucjBmFswQdxWFQeNtPnoOgMyKwT+4yXCxBGup1fOXsxsaTX/cg39u+GStAdyC8p5JoW3CoUy+yN+5tN6X3eCuMNFbGOSh6/mJsbPpH6VWIp4U+h/tWyTzeGobg0AQ5giQh/OVby4Pwc6eZbpANA7Ha99+jUAH+YPrGZKIVuz+Qw3/6AnKO/d5kYEQJNllrzY3VXDb/xZd3h1hkzQjg84U7wCxZl4nR85LY2HPf9WHJHQCgFlraVGP/xF68xl2fdAy2lzavZT1hP0O6fR+aIaxnwgcOJegDow7mZr5n8hC6YZc0bdV92Ik8atgxF4xMnyEZOe8n9yDd62SkOHcDlmPpnYNdBC6q3thY2dwqMaVd69/GjdvoyrmWqfLmYtO1uCAVKQwZ/J6+jBmq1tgc7J9YDgJQ46HAHFJBctfw7WauOXb/0pxMed3FK8cCbBH/5ty2E/tp+7HR//j2cJrAX2chY=
+  app: intense-hamlet-87801
+  run: "./node_modules/.bin/sequelize db:migrate"
