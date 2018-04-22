@@ -2,14 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
     var Follow = sequelize.define('Follow', {}, {});
     Follow.associate = function (models) {
-        Follow.belongsTo(models.User, {
-            foreignKey: 'followerId',
-            onDelete: 'CASCADE',
-        });
-        Follow.belongsTo(models.User, {
-            foreignKey: 'userId',
-            onDelete: 'CASCADE',
-        });
+        models.User.belongsToMany(models.User, { as: 'follower', through: Follow, foreignKey: 'userId', otherKey: 'followerId' });
+        models.User.belongsToMany(models.User, { as: 'user', through: Follow, foreignKey: 'followerId', otherKey: 'userId' });
     };
     return Follow;
 };

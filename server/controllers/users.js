@@ -14,8 +14,8 @@ module.exports = {
                         order: [
                             ['createdAt', 'DESC'],
                         ],
-                        offset: req.offset,
-                        limit: req.limit
+                        offset: req.body.offset,
+                        limit: req.body.limit
                     })
                     .then((users) => res.status(200).send(successResponder(users, amount)))
                     .catch((error) => res.status(400).send(errorResponder(error)));
@@ -30,9 +30,7 @@ module.exports = {
             })
             .then((user) => {
                 if (!user) {
-                    return res.status(404).send(errorResponder({
-                        message: 'User not found.',
-                    }));
+                    return res.status(404).send(errorResponder('User not found.'));
                 }
                 return res.status(200).send(successResponder(user));
             })
@@ -44,9 +42,7 @@ module.exports = {
             .findById(req.params.id)
             .then(user => {
                 if (!user) {
-                    return res.status(404).send(errorResponder({
-                        message: 'User not found.',
-                    }));
+                    return res.status(404).send(errorResponder('User not found.'));
                 }
 
                 let role = req.body.role;
@@ -66,9 +62,7 @@ module.exports = {
             .findById(req.params.id)
             .then(user => {
                 if (!user) {
-                    return res.status(404).send(errorResponder({
-                        message: 'User not found.',
-                    }));
+                    return res.status(404).send(errorResponder('User not found.'));
                 }
 
                 return user
@@ -76,6 +70,6 @@ module.exports = {
                     .then(() => res.status(204).send(successResponder(true)))
                     .catch(error => res.status(400).send(errorResponder(error)));
             })
-            .catch(error => res.status(400).send(error));
+            .catch(error => res.status(400).send(errorResponder(error)));
     }
 };

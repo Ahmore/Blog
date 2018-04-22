@@ -31,14 +31,14 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'authorId',
             as: 'comments',
         });
-        User.hasMany(models.Follow, {
-            foreignKey: 'followerId',
-            as: 'follows',
-        });
-        User.hasMany(models.Follow, {
-            foreignKey: 'userId',
-            as: 'followers',
-        });
+        // User.hasMany(models.Follow, {
+        //     foreignKey: 'followerId',
+        //     as: 'follows',
+        // });
+        // User.hasMany(models.Follow, {
+        //     foreignKey: 'userId',
+        //     as: 'followers',
+        // });
     };
     return User;
 };

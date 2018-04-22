@@ -1,9 +1,11 @@
-const todos = require('./todos');
-const todoItems = require('./todoitems');
 const users = require('./users');
+const posts = require('./posts');
+const comments = require('./comments');
+const follows = require('./follows');
 
 module.exports = {
-    todos,
-    todoItems,
-    users
+    users,
+    posts,
+    comments,
+    follows
 };

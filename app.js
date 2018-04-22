@@ -36,6 +36,6 @@ app.get('*', (req, res) => res.status(200).send({
 }));
 
 // Errors handling
-app.use(appErrorHandler);
+// app.use(appErrorHandler);
 
 module.exports = app;
