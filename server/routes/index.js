@@ -23,7 +23,7 @@ module.exports = (app) => {
     app.get('/api/users/:id', authController.authenticate, authController.authorize("*"), controllers.users.get);
 
     // Edit user
-    app.put('/api/users/:id', authController.authenticate, authController.authorize("admin"), controllers.users.update);
+    app.put('/api/users/:id', checkSchema(schemas.user), authController.authenticate, authController.authorize("admin"), controllers.users.update);
 
     // Delete user
     app.delete('/api/users/:id', authController.authenticate, authController.authorize("admin"), controllers.users.destroy);
@@ -38,10 +38,10 @@ module.exports = (app) => {
     app.get('/api/posts/:userId', authController.authenticate, authController.authorize("*"), controllers.posts.getUserPosts);
 
     // Add post
-    app.post('/api/posts', authController.authenticate, authController.authorize("*"), controllers.posts.create);
+    app.post('/api/posts', checkSchema(schemas.post), authController.authenticate, authController.authorize("*"), controllers.posts.create);
 
     // Edit post
-    app.put('/api/posts/:id', authController.authenticate, authController.authorize("*"), controllers.posts.update);
+    app.put('/api/posts/:id', checkSchema(schemas.post), authController.authenticate, authController.authorize("*"), controllers.posts.update);
 
     // Delete post
     app.delete('/api/posts/:id', authController.authenticate, authController.authorize("*"), controllers.posts.destroy);
@@ -53,10 +53,10 @@ module.exports = (app) => {
     app.get('/api/comments/:postId', authController.authenticate, authController.authorize("*"), controllers.comments.getPostComments);
 
     // Add comment to post
-    app.post('/api/comments/:postId', authController.authenticate, authController.authorize("*"), controllers.comments.create);
+    app.post('/api/comments/:postId', checkSchema(schemas.comment), authController.authenticate, authController.authorize("*"), controllers.comments.create);
 
     // Edit comment
-    app.put('/api/comments/:id', authController.authenticate, authController.authorize("*"), controllers.comments.update);
+    app.put('/api/comments/:id', checkSchema(schemas.comment), authController.authenticate, authController.authorize("*"), controllers.comments.update);
 
     // Delete comment
     app.delete('/api/comments/:id', authController.authenticate, authController.authorize("*"), controllers.comments.destroy);
