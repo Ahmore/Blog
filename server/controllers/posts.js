@@ -31,8 +31,8 @@ module.exports = {
             return sequelize.query("SELECT * FROM \"Posts\" WHERE \"Posts\".\"authorId\" IN (SELECT \"Follows\".\"userId\" FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"userId\" = \"Users\".\"id\" WHERE \"Follows\".\"followerId\" = :followerId) OR  \"Posts\".\"authorId\" = :followerId LIMIT :limit OFFSET :offset", { 
                 replacements: { 
                     followerId: req.auth.id,
-                    offset: req.body.offset || 0,
-                    limit: req.body.limit || null
+                    offset: req.query.offset || 0,
+                    limit: req.query.limit || null
                 },
                 type: Sequelize.QueryTypes.SELECT
             })
@@ -65,8 +65,8 @@ module.exports = {
                         order: [
                             ['createdAt', 'DESC'],
                         ],
-                        offset: req.body.offset,
-                        limit: req.body.limit
+                        offset: req.query.offset,
+                        limit: req.query.limit
                     })
                     .then((posts) => res.status(200).send(successResponder(posts, amount)))
                     .catch((error) => res.status(400).send(errorResponder(error)));

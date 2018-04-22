@@ -27,8 +27,8 @@ module.exports = {
                         order: [
                             ['createdAt', 'DESC'],
                         ],
-                        offset: req.body.offset,
-                        limit: req.body.limit
+                        offset: req.query.offset,
+                        limit: req.query.limit
                     })
                     .then((comments) => res.status(200).send(successResponder(comments, amount)))
                     .catch((error) => res.status(400).send(errorResponder(error)));
