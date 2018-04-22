@@ -41,7 +41,7 @@ module.exports = {
             .create({
                 text: req.body.text,
                 postId: req.params.postId,
-                authorId: 1 // ID logged user
+                authorId: req.auth.id
             })
             .then((comment) => res.status(201).send(successResponder(comment)))
             .catch((error) => res.status(400).send(errorResponder(error)));

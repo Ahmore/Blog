@@ -23,14 +23,14 @@ module.exports = {
     getFollows(req, res) {
         return sequelize.query("SELECT COUNT(*) FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"userId\" = \"Users\".\"id\" WHERE \"Follows\".\"followerId\" = :followerId", { 
             replacements: { 
-                followerId: 1, // ID logged user
+                followerId: req.auth.id
             },
             type: Sequelize.QueryTypes.SELECT
         })
         .then(data => {
             return sequelize.query("SELECT * FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"userId\" = \"Users\".\"id\" WHERE \"Follows\".\"followerId\" = :followerId LIMIT :limit OFFSET :offset", { 
                 replacements: { 
-                    followerId: 1, // ID logged user
+                    followerId: req.auth.id,
                     offset: req.body.offset || 0,
                     limit: req.body.limit || null
                 },
@@ -47,14 +47,14 @@ module.exports = {
     getFollowers(req, res) {
         return sequelize.query("SELECT COUNT(*) FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"followerId\" = \"Users\".\"id\" WHERE \"Follows\".\"userId\" = :userId", { 
             replacements: { 
-                userId: 2, // ID logged user
+                userId: req.auth.id
             },
             type: Sequelize.QueryTypes.SELECT
         })
         .then(data => {
             return sequelize.query("SELECT * FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"followerId\" = \"Users\".\"id\" WHERE \"Follows\".\"userId\" = :userId LIMIT :limit OFFSET :offset", { 
                 replacements: { 
-                    userId: 2, // ID logged user
+                    userId: req.auth.id,
                     offset: req.body.offset || 0,
                     limit: req.body.limit || null
                 },
@@ -71,7 +71,7 @@ module.exports = {
     create(req, res) {
         return Follow
             .create({
-                followerId: 1, // ID logged user
+                followerId: req.auth.id,
                 userId: req.params.userId
             })
             .then((follow) => res.status(201).send(successResponder(follow)))
