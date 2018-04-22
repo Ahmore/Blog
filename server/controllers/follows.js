@@ -87,6 +87,10 @@ module.exports = {
                         message: 'Follow not found.',
                     }));
                 }
+                
+                if (req.auth.role !== "admin" && req.auth.id !== follow.followerId) {
+                    return res.status(403).send(errorResponder('User not authorized.'));
+                }
 
                 return follow
                     .destroy()

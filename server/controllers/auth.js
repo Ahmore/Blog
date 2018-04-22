@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 const User = require("./../models").User;
+const errorResponder = require('./../utils/errorResponder');
+const successResponder = require('./../utils/successResponder');
 
 const authenticate = expressJwt({
     secret: process.env.SERVER_SECRET,
@@ -13,11 +15,24 @@ const authenticate = expressJwt({
     }
 });
 
+const authorize = (...roles) => {
+    return (req, res, next) => {
+        if (roles.indexOf("*") !== -1) {
+            next();
+        }
+        else {
+            if (roles.indexOf(req.auth.role) === -1) {
+                return res.status(403).send(errorResponder('User not authorized.'));
+            }
+    
+            next();    
+        }
+    }
+};
+
 const prepareUser = function (req, res, next) {
     if (!req.user) {
-        return res.status(401).send({
-            message: 'User Not Authenticated',
-        });
+        return res.status(401).send(errorResponder('User Not Authenticated'));
     }
 
     // Prepare token for API
@@ -49,7 +64,7 @@ const generateToken = function (req, res, next) {
 
 const sendToken = function (req, res) {
     res.setHeader('x-auth-token', req.token);
-    res.status(200).send(req.auth);
+    res.status(200).send(successResponder(req.auth));
 };
 
 const userAuth = function (accessToken, refreshToken, profile, cb) {
@@ -87,5 +102,6 @@ module.exports = {
     createToken: createToken,
     generateToken: generateToken,
     sendToken: sendToken,
-    authenticate: authenticate
+    authenticate: authenticate,
+    authorize: authorize
 };

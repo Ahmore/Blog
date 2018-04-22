@@ -54,6 +54,10 @@ module.exports = {
                 if (!comment) {
                     return res.status(404).send(errorResponder('Comment not found.'));
                 }
+                
+                if (req.auth.role !== "admin" && req.auth.id !== comment.authorId) {
+                    return res.status(403).send(errorResponder('User not authorized.'));
+                }
 
                 let text = req.body.text;
 
@@ -75,6 +79,10 @@ module.exports = {
                     return res.status(404).send(errorResponder({
                         message: 'Comment not found.',
                     }));
+                }
+                
+                if (req.auth.role !== "admin" && req.auth.id !== comment.authorId) {
+                    return res.status(403).send(errorResponder('User not authorized.'));
                 }
 
                 return comment

@@ -92,6 +92,10 @@ module.exports = {
                     return res.status(404).send(errorResponder('Post not found.'));
                 }
 
+                if (req.auth.role !== "admin" && req.auth.id !== post.authorId) {
+                    return res.status(403).send(errorResponder('User not authorized.'));
+                }
+
                 let text = req.body.text;
 
                 return post
@@ -110,6 +114,10 @@ module.exports = {
             .then(post => {
                 if (!post) {
                     return res.status(404).send(errorResponder('Post not found.'));
+                }
+
+                if (req.auth.role !== "admin" && req.auth.id !== post.authorId) {
+                    return res.status(403).send(errorResponder('User not authorized.'));
                 }
 
                 return post
