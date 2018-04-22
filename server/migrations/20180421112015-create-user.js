@@ -16,6 +16,12 @@ module.exports = {
             isEmail: true
         }
       },  
+      role: {
+        type:   Sequelize.ENUM,
+        values: ['admin', 'user'],
+        allowNull: false,
+        defaultValue: 'user'
+      },
       facebookProviderId: {
           type: Sequelize.STRING
       },

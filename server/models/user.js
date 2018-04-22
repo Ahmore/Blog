@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
                 isEmail: true
             }
         },  
+        role: {
+            type:   DataTypes.ENUM,
+            values: ['admin', 'user'],
+            allowNull: false,
+            defaultValue: 'user'
+        },
         facebookProviderId: {
             type: DataTypes.STRING
         },
@@ -17,7 +23,22 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {});
     User.associate = function(models) {
-        // associations can be defined here
+        User.hasMany(models.Post, {
+            foreignKey: 'authorId',
+            as: 'posts',
+        });
+        User.hasMany(models.Comment, {
+            foreignKey: 'authorId',
+            as: 'comments',
+        });
+        User.hasMany(models.Follow, {
+            foreignKey: 'followerId',
+            as: 'follows',
+        });
+        User.hasMany(models.Follow, {
+            foreignKey: 'userId',
+            as: 'followers',
+        });
     };
     return User;
 };

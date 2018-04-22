@@ -36,4 +36,12 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
 }));
 
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send({
+      "message": 'invalid token...'
+    });
+  }
+});
+
 module.exports = app;
