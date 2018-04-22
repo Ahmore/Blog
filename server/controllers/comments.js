@@ -1,7 +1,6 @@
 const User = require('../models').User;
 const Post = require('../models').Post;
 const Comment = require('../models').Comment;
-const sequelize = require('sequelize');
 const errorResponder = require('./../utils/errorResponder');
 const successResponder = require('./../utils/successResponder');
 

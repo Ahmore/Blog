@@ -2,7 +2,7 @@ const User = require('../models').User;
 const Post = require('../models').Post;
 const Comment = require('../models').Comment;
 const Follow = require('../models').Follow;
-const Sequelize = require('Sequelize');
+const Sequelize = require('./../../node_modules/sequelize/lib/sequelize');
 const errorResponder = require('./../utils/errorResponder');
 const successResponder = require('./../utils/successResponder');
 
