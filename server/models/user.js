@@ -8,9 +8,9 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 isEmail: true
             }
-        },  
+        },
         role: {
-            type:   DataTypes.ENUM,
+            type: DataTypes.ENUM,
             values: ['admin', 'user'],
             allowNull: false,
             defaultValue: 'user'
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         }
     }, {});
-    User.associate = function(models) {
+    User.associate = function (models) {
         User.hasMany(models.Post, {
             foreignKey: 'authorId',
             as: 'posts',

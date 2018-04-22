@@ -1,28 +1,37 @@
 {
-  "development": {
-    "use_env_variable": "DATABASE_URL",
-    "dialect": "postgres",
-    "ssl": true,
-    "dialectOptions": {
-        "ssl": {
-          "require": true
+    "development": {
+        "use_env_variable": "DATABASE_URL",
+        "dialect": "postgres",
+        "ssl": true,
+        "dialectOptions": {
+            "ssl": {
+                "require": true
+            }
         }
+    },
+    "local": {
+        "username": "postgres",
+        "password": "1234",
+        "database": "blog",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "dialect": "postgres"
+    },
+    "test": {
+        "username": "postgres",
+        "password": "",
+        "database": "blog",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "dialect": "postgres"
+    },
+    "FACEBOOK_APP_ID": "164788700874989",
+    "CORS": {
+        "origin": true,
+        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "credentials": true,
+        "exposedHeaders": [
+            "x-auth-token"
+        ]
     }
-  },
-  "local": {
-    "username": "postgres",
-    "password": "1234",
-    "database": "blog",
-    "host": "127.0.0.1",
-    "port": 5432,
-    "dialect": "postgres"
-  },
-  "test": {
-    "username": "postgres",
-    "password": "",
-    "database": "blog",
-    "host": "127.0.0.1",
-    "port": 5432,
-    "dialect": "postgres"
-  }
 }
