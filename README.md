@@ -13,7 +13,11 @@ Download and install PostgreSQL database.
 ### Server dependencies
 `npm install`
 
+### Create enviroment file
+Create .env file based on .env.file.
+
 ### Database migration
+`set NODE_ENV=local`
 `./node_modules/.bin/sequelize db:migrate`
 
 ### Run server
