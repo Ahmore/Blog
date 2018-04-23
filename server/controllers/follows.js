@@ -67,13 +67,21 @@ module.exports = {
     },
 
     create(req, res) {
-        return Follow
-            .create({
-                followerId: req.auth.id,
-                userId: req.params.userId
-            })
-            .then((follow) => res.status(201).send(successResponder(follow)))
-            .catch((error) => res.status(400).send(errorResponder(error)));
+        return User
+            .findById(req.params.userId)
+            .then((user) => {
+                if (!user) {
+                    return res.status(404).send(errorResponder('User not found.'));
+                }
+
+                return Follow
+                    .create({
+                        followerId: req.auth.id,
+                        userId: req.params.userId
+                    })
+                    .then((follow) => res.status(201).send(successResponder(follow)))
+                    .catch((error) => res.status(400).send(errorResponder(error)));
+            });
     },
 
     destroy(req, res) {

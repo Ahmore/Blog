@@ -36,14 +36,22 @@ module.exports = {
     },
 
     create(req, res) {
-        return Comment
-            .create({
-                text: req.body.text,
-                postId: req.params.postId,
-                authorId: req.auth.id
-            })
-            .then((comment) => res.status(201).send(successResponder(comment)))
-            .catch((error) => res.status(400).send(errorResponder(error)));
+        return Post
+            .findById(req.params.postId)
+            .then(post => {
+                if (!post) {
+                    return res.status(404).send(errorResponder('Post not found.'));
+                }
+
+                return Comment
+                    .create({
+                        text: req.body.text,
+                        postId: req.params.postId,
+                        authorId: req.auth.id
+                    })
+                    .then((comment) => res.status(201).send(successResponder(comment)))
+                    .catch((error) => res.status(400).send(errorResponder(error)));
+            });
     },
 
     update(req, res) {
@@ -75,9 +83,7 @@ module.exports = {
             .findById(req.params.id)
             .then(comment => {
                 if (!comment) {
-                    return res.status(404).send(errorResponder({
-                        message: 'Comment not found.',
-                    }));
+                    return res.status(404).send(errorResponder('Comment not found.'));
                 }
                 
                 if (req.auth.role !== "admin" && req.auth.id !== comment.authorId) {
