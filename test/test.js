@@ -257,7 +257,6 @@ describe('Blog', function () {
                 .get('/api/comments/2')
                 .set('x-auth-token', user1_token)
                 .end(function (err, res) {
-                    console.log(res.body.data);
                     res.should.have.status(200);
 
                     res.body.should.have.property("amount");
@@ -313,29 +312,109 @@ describe('Blog', function () {
         });
     });
 
-    // describe('Follows', function () {
-    //     it('Should add follow', function (done) {
+    describe('Follows', function () {
+        it('Should add follow', function (done) {
+            chai.request(server)
+            .post('/api/follows/2')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(201);
 
-    //     });
+                res.body.should.have.property("data");
+                res.body.data.should.be.an("object");
 
-    //     it('Should return non empty user follows list', function (done) {
+                res.body.data.should.have.property("followerId");
+                res.body.data.followerId.should.be.a("number");
+                res.body.data.followerId.should.equal(1);
 
-    //     });
+                res.body.data.should.have.property("userId");
+                res.body.data.userId.should.be.a("number");
+                res.body.data.userId.should.equal(2);
 
-    //     it('Should add follower', function (done) {
+                done();
+            });
+        });
 
-    //     });
+        it('Should return non empty user follows list', function (done) {
+            chai.request(server)
+            .get('/api/follows')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(200);
 
-    //     it('Should return non empty user followers list', function (done) {
+                res.body.should.have.property("amount");
+                res.body.amount.should.be.a("number");
+                res.body.amount.should.equal(1);
 
-    //     });
+                res.body.should.have.property("data");
+                res.body.data.should.be.an("array");
 
-    //     it('Should delete follow', function (done) {
+                done();
+            });
+        });
 
-    //     });
+        it('Should delete follow', function (done) {
+            chai.request(server)
+            .delete('/api/follows/1')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(204);
 
-    //     it('Should return error while deleting follow again, because follow doesn\'t exist', function (done) {
+                done();
+            });
+        });
 
-    //     });
-    // });
+        it('Should return error while deleting follow again, because follow doesn\'t exist', function (done) {
+            chai.request(server)
+            .delete('/api/comments/1')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(404);
+
+                done();
+            });
+        });
+    });
+
+    describe("Followers", function () {
+        it('Should add follower', function (done) {
+            chai.request(server)
+            .post('/api/follows/1')
+            .set('x-auth-token', user2_token)
+            .end(function (err, res) {
+                res.should.have.status(201);
+
+                res.body.should.have.property("data");
+                res.body.data.should.be.an("object");
+
+                res.body.data.should.have.property("followerId");
+                res.body.data.followerId.should.be.a("number");
+                res.body.data.followerId.should.equal(2);
+
+                res.body.data.should.have.property("userId");
+                res.body.data.userId.should.be.a("number");
+                res.body.data.userId.should.equal(1);
+
+                done();
+            });
+        });
+
+        it('Should return non empty user followers list', function (done) {
+            chai.request(server)
+            .get('/api/followers')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(200);
+
+                res.body.should.have.property("amount");
+                res.body.amount.should.be.a("number");
+                res.body.amount.should.equal(1);
+
+                res.body.should.have.property("data");
+                res.body.data.should.be.an("array");
+
+                done();
+            });
+        });
+    });
 });
