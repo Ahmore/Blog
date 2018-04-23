@@ -6,7 +6,7 @@ env:
 services:
 - postgresql
 before_script:
-- psql -c 'create database blog;' -U postgres
+- psql -c 'create database blog_test;' -U postgres
 - "./node_modules/.bin/sequelize db:migrate"
 deploy:
   provider: heroku
