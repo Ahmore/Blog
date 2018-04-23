@@ -68,11 +68,11 @@ module.exports = (app) => {
     app.get('/api/follows', authController.authenticate, authController.authorize("*"), controllers.follows.getFollows);
     
     // Get followers
-    app.get('/api/follows/followers', authController.authenticate, authController.authorize("*"), controllers.follows.getFollowers);
+    app.get('/api/followers', authController.authenticate, authController.authorize("*"), controllers.follows.getFollowers);
 
     // Add following user
     app.post('/api/follows/:userId', authController.authenticate, authController.authorize("*"), controllers.follows.create);
 
     // Delete following user
-    app.delete('/api/follows', authController.authenticate, authController.authorize("*"), controllers.follows.destroy);
+    app.delete('/api/follows/:id', authController.authenticate, authController.authorize("*"), controllers.follows.destroy);
 };

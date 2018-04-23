@@ -86,7 +86,11 @@ module.exports = {
 
     destroy(req, res) {
         return Follow
-            .findById(req.params.id)
+            .findOne({
+                where: {
+                    id: req.params.id
+                }
+            })
             .then(follow => {
                 if (!follow) {
                     return res.status(404).send(errorResponder({
