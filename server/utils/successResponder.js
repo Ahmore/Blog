@@ -1,6 +1,6 @@
 module.exports = (data, amount) => {
     return {
-        amount: amount,
+        amount: Number(amount),
         data: data
     };
 };

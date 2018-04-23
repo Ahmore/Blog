@@ -36,7 +36,7 @@ describe('Blog', function () {
         });
 
         // Truncate db with CASCADE option
-        return sequelize.query("TRUNCATE TABLE \"Users\" CASCADE").then(function () {
+        return sequelize.query("TRUNCATE TABLE \"Users\" RESTART IDENTITY CASCADE").then(function () {
             // Add 2 users
             let user1 = sequelize.query("INSERT INTO \"Users\" (\"id\", \"email\", \"role\", \"facebookProviderId\", \"facebookProviderToken\", \"createdAt\", \"updatedAt\") VALUES (\'1\', \'test@test.pl\', \'admin\', \' \', \' \', \'2018-04-23 20:00\', \'2018-04-23 20:00\')");
             let user2 = sequelize.query("INSERT INTO \"Users\" (\"id\", \"email\", \"role\", \"facebookProviderId\", \"facebookProviderToken\", \"createdAt\", \"updatedAt\") VALUES (\'2\', \'test2@test.pl\', \'admin\', \' \', \' \', \'2018-04-23 20:00\', \'2018-04-23 20:00\')");
@@ -142,27 +142,85 @@ describe('Blog', function () {
         });
     });
 
-    // describe('Posts', function () {
-    //     it('Should add post', function (done) {
+    describe('Posts', function () {
+        it('Should add post', function (done) {
+            chai.request(server)
+            .post('/api/posts')
+            .set('x-auth-token', user1_token)
+            .send({ text: 'Post 1' })
+            .end(function (err, res) {
+                res.should.have.status(201);
+                    
+                res.body.should.have.property("data");
+                res.body.data.should.be.an("object");
 
-    //     });
+                res.body.data.should.have.property("text");
+                res.body.data.text.should.be.a("string");
+                res.body.data.text.should.equal("Post 1");
 
-    //     it('Should return non empty user posts list', function (done) {
+                done();
+            });
+        });
 
-    //     });
+        it('Should return non empty user posts list', function (done) {
+            chai.request(server)
+            .get('/api/posts')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(200);
 
-    //     it('Should edit post', function (done) {
+                res.body.should.have.property("amount");
+                res.body.amount.should.be.a("number");
+                res.body.amount.should.equal(1);
 
-    //     });
+                res.body.should.have.property("data");
+                res.body.data.should.be.an("array");
 
-    //     it('Should delete post', function (done) {
+                done();
+            });
+        });
 
-    //     });
+        it('Should edit post', function (done) {
+            chai.request(server)
+            .put('/api/posts/1')
+            .set('x-auth-token', user1_token)
+            .send({ text: 'Post 2' })
+            .end(function (err, res) {
+                res.should.have.status(200);
+                
+                res.body.should.have.property("data");
+                res.body.data.should.be.an("object");
+
+                res.body.data.should.have.property("text");
+                res.body.data.text.should.be.a("string");
+                res.body.data.text.should.equal("Post 2");
+
+                done();
+            });
+        });
+
+        it('Should delete post', function (done) {
+            chai.request(server)
+            .delete('/api/posts/1')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(204);
+
+                done();
+            });
+        });
         
-    //     it('Should return error while deleting post again, because post doesn\'t exist', function (done) {
-            
-    //     });
-    // });
+        it('Should return error while deleting post again, because post doesn\'t exist', function (done) {
+            chai.request(server)
+            .delete('/api/posts/1')
+            .set('x-auth-token', user1_token)
+            .end(function (err, res) {
+                res.should.have.status(404);
+
+                done();
+            });
+        });
+    });
     
     // describe('Comments', function () {
     //     it('Should add comment to post', function (done) {
