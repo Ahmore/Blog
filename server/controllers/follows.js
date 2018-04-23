@@ -7,7 +7,6 @@ const successResponder = require('./../utils/successResponder');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.json`)[env];
-const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
