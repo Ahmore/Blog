@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 const server = require('./../app');
 const should = chai.should();
 const Sequelize = require('./../node_modules/sequelize/lib/sequelize');
-const authController = require('./../server/controllers/auth');
+const controllers = require('./../server/controllers');
 
 const ENV = "test";
 const config = require(`${__dirname}/../server/config/config.json`)[ENV];
@@ -23,13 +23,13 @@ describe('Blog', function () {
 
     before(function () {
         // Create token
-        user1_token = authController.createToken({
+        user1_token = controllers.auth.createToken({
             id: 1,
             email: 'test@test.pl',
             role: 'admin'
         });
 
-        user2_token = authController.createToken({
+        user2_token = controllers.auth.createToken({
             id: 2,
             email: 'test2@test.pl',
             role: 'admin'
@@ -315,106 +315,106 @@ describe('Blog', function () {
     describe('Follows', function () {
         it('Should add follow', function (done) {
             chai.request(server)
-            .post('/api/follows/2')
-            .set('x-auth-token', user1_token)
-            .end(function (err, res) {
-                res.should.have.status(201);
+                .post('/api/follows/2')
+                .set('x-auth-token', user1_token)
+                .end(function (err, res) {
+                    res.should.have.status(201);
 
-                res.body.should.have.property("data");
-                res.body.data.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.be.an("object");
 
-                res.body.data.should.have.property("followerId");
-                res.body.data.followerId.should.be.a("number");
-                res.body.data.followerId.should.equal(1);
+                    res.body.data.should.have.property("followerId");
+                    res.body.data.followerId.should.be.a("number");
+                    res.body.data.followerId.should.equal(1);
 
-                res.body.data.should.have.property("userId");
-                res.body.data.userId.should.be.a("number");
-                res.body.data.userId.should.equal(2);
+                    res.body.data.should.have.property("userId");
+                    res.body.data.userId.should.be.a("number");
+                    res.body.data.userId.should.equal(2);
 
-                done();
-            });
+                    done();
+                });
         });
 
         it('Should return non empty user follows list', function (done) {
             chai.request(server)
-            .get('/api/follows')
-            .set('x-auth-token', user1_token)
-            .end(function (err, res) {
-                res.should.have.status(200);
+                .get('/api/follows')
+                .set('x-auth-token', user1_token)
+                .end(function (err, res) {
+                    res.should.have.status(200);
 
-                res.body.should.have.property("amount");
-                res.body.amount.should.be.a("number");
-                res.body.amount.should.equal(1);
+                    res.body.should.have.property("amount");
+                    res.body.amount.should.be.a("number");
+                    res.body.amount.should.equal(1);
 
-                res.body.should.have.property("data");
-                res.body.data.should.be.an("array");
+                    res.body.should.have.property("data");
+                    res.body.data.should.be.an("array");
 
-                done();
-            });
+                    done();
+                });
         });
 
         it('Should delete follow', function (done) {
             chai.request(server)
-            .delete('/api/follows/1')
-            .set('x-auth-token', user1_token)
-            .end(function (err, res) {
-                res.should.have.status(204);
+                .delete('/api/follows/1')
+                .set('x-auth-token', user1_token)
+                .end(function (err, res) {
+                    res.should.have.status(204);
 
-                done();
-            });
+                    done();
+                });
         });
 
         it('Should return error while deleting follow again, because follow doesn\'t exist', function (done) {
             chai.request(server)
-            .delete('/api/comments/1')
-            .set('x-auth-token', user1_token)
-            .end(function (err, res) {
-                res.should.have.status(404);
+                .delete('/api/comments/1')
+                .set('x-auth-token', user1_token)
+                .end(function (err, res) {
+                    res.should.have.status(404);
 
-                done();
-            });
+                    done();
+                });
         });
     });
 
     describe("Followers", function () {
         it('Should add follower', function (done) {
             chai.request(server)
-            .post('/api/follows/1')
-            .set('x-auth-token', user2_token)
-            .end(function (err, res) {
-                res.should.have.status(201);
+                .post('/api/follows/1')
+                .set('x-auth-token', user2_token)
+                .end(function (err, res) {
+                    res.should.have.status(201);
 
-                res.body.should.have.property("data");
-                res.body.data.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.be.an("object");
 
-                res.body.data.should.have.property("followerId");
-                res.body.data.followerId.should.be.a("number");
-                res.body.data.followerId.should.equal(2);
+                    res.body.data.should.have.property("followerId");
+                    res.body.data.followerId.should.be.a("number");
+                    res.body.data.followerId.should.equal(2);
 
-                res.body.data.should.have.property("userId");
-                res.body.data.userId.should.be.a("number");
-                res.body.data.userId.should.equal(1);
+                    res.body.data.should.have.property("userId");
+                    res.body.data.userId.should.be.a("number");
+                    res.body.data.userId.should.equal(1);
 
-                done();
-            });
+                    done();
+                });
         });
 
         it('Should return non empty user followers list', function (done) {
             chai.request(server)
-            .get('/api/followers')
-            .set('x-auth-token', user1_token)
-            .end(function (err, res) {
-                res.should.have.status(200);
+                .get('/api/followers')
+                .set('x-auth-token', user1_token)
+                .end(function (err, res) {
+                    res.should.have.status(200);
 
-                res.body.should.have.property("amount");
-                res.body.amount.should.be.a("number");
-                res.body.amount.should.equal(1);
+                    res.body.should.have.property("amount");
+                    res.body.amount.should.be.a("number");
+                    res.body.amount.should.equal(1);
 
-                res.body.should.have.property("data");
-                res.body.data.should.be.an("array");
+                    res.body.should.have.property("data");
+                    res.body.data.should.be.an("array");
 
-                done();
-            });
+                    done();
+                });
         });
     });
 });

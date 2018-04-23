@@ -1,4 +1,3 @@
-const authController = require('../controllers/auth');
 const controllers = require('../controllers');
 const passport = require("passport");
 const { checkSchema } = require('express-validator/check');
@@ -11,68 +10,68 @@ module.exports = (app) => {
     }));
 
     // Authentication
-    app.post('/api/auth/facebook', checkSchema(schemas.login), schemaErrorHandler, passport.authenticate('facebook-token', { session: false }), authController.prepareUser, authController.generateToken, authController.sendToken);
+    app.post('/api/auth/facebook', checkSchema(schemas.login), schemaErrorHandler, passport.authenticate('facebook-token', { session: false }), controllers.auth.prepareUser, controllers.auth.generateToken, controllers.auth.sendToken);
 
 
 
     // Users
     // Get all users
-    app.get('/api/users', authController.authenticate, authController.authorize("*"), controllers.users.getAll);
+    app.get('/api/users', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.users.getAll);
 
     // Get user
-    app.get('/api/users/:id', authController.authenticate, authController.authorize("*"), controllers.users.get);
+    app.get('/api/users/:id', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.users.get);
 
     // Edit user
-    app.put('/api/users/:id', checkSchema(schemas.user), authController.authenticate, authController.authorize("admin"), controllers.users.update);
+    app.put('/api/users/:id', checkSchema(schemas.user), controllers.auth.authenticate, controllers.auth.authorize("admin"), controllers.users.update);
 
     // Delete user
-    app.delete('/api/users/:id', authController.authenticate, authController.authorize("admin"), controllers.users.destroy);
+    app.delete('/api/users/:id', controllers.auth.authenticate, controllers.auth.authorize("admin"), controllers.users.destroy);
 
 
 
     // Posts
     // Get all my posts including following users posts
-    app.get('/api/posts', authController.authenticate, authController.authorize("*"), controllers.posts.getAll);
+    app.get('/api/posts', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.getAll);
 
     // Get user posts
-    app.get('/api/posts/:userId', authController.authenticate, authController.authorize("*"), controllers.posts.getUserPosts);
+    app.get('/api/posts/:userId', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.getUserPosts);
 
     // Add post
-    app.post('/api/posts', checkSchema(schemas.post), authController.authenticate, authController.authorize("*"), controllers.posts.create);
+    app.post('/api/posts', checkSchema(schemas.post), controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.create);
 
     // Edit post
-    app.put('/api/posts/:id', checkSchema(schemas.post), authController.authenticate, authController.authorize("*"), controllers.posts.update);
+    app.put('/api/posts/:id', checkSchema(schemas.post), controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.update);
 
     // Delete post
-    app.delete('/api/posts/:id', authController.authenticate, authController.authorize("*"), controllers.posts.destroy);
+    app.delete('/api/posts/:id', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.destroy);
 
 
 
     // Comments
     // Get post comments
-    app.get('/api/comments/:postId', authController.authenticate, authController.authorize("*"), controllers.comments.getPostComments);
+    app.get('/api/comments/:postId', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.comments.getPostComments);
 
     // Add comment to post
-    app.post('/api/comments/:postId', checkSchema(schemas.comment), authController.authenticate, authController.authorize("*"), controllers.comments.create);
+    app.post('/api/comments/:postId', checkSchema(schemas.comment), controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.comments.create);
 
     // Edit comment
-    app.put('/api/comments/:id', checkSchema(schemas.comment), authController.authenticate, authController.authorize("*"), controllers.comments.update);
+    app.put('/api/comments/:id', checkSchema(schemas.comment), controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.comments.update);
 
     // Delete comment
-    app.delete('/api/comments/:id', authController.authenticate, authController.authorize("*"), controllers.comments.destroy);
+    app.delete('/api/comments/:id', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.comments.destroy);
 
 
 
     // Follows
     // Get following users
-    app.get('/api/follows', authController.authenticate, authController.authorize("*"), controllers.follows.getFollows);
+    app.get('/api/follows', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.follows.getFollows);
     
     // Get followers
-    app.get('/api/followers', authController.authenticate, authController.authorize("*"), controllers.follows.getFollowers);
+    app.get('/api/followers', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.follows.getFollowers);
 
     // Add following user
-    app.post('/api/follows/:userId', authController.authenticate, authController.authorize("*"), controllers.follows.create);
+    app.post('/api/follows/:userId', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.follows.create);
 
     // Delete following user
-    app.delete('/api/follows/:id', authController.authenticate, authController.authorize("*"), controllers.follows.destroy);
+    app.delete('/api/follows/:id', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.follows.destroy);
 };
