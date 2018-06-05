@@ -1,6 +1,11 @@
 module.exports = (data, amount) => {
-    return {
-        amount: Number(amount),
+    let response = {
         data: data
     };
+
+    if (amount) {
+        response.amount = Number(amount);
+    }
+
+    return response;
 };
