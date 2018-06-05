@@ -63,8 +63,8 @@ const generateToken = function (req, res, next) {
 };
 
 const sendToken = function (req, res) {
-    res.setHeader('x-auth-token', req.token);
-    res.status(200).send(successResponder(req.auth));
+    // res.setHeader('x-auth-token', req.token);
+    res.status(200).send(successResponder(req.token));
 };
 
 const userAuth = function (accessToken, refreshToken, profile, cb) {
