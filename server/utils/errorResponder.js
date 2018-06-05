@@ -3,19 +3,19 @@ module.exports = (...errors) => {
         errors: errors.map(error => {
             if (typeof error === "string") {
                 return {
-                    message: error
-                }
+                    message: error,
+                };
             }
             else if (error instanceof Error) {
                 return {
-                    message: String(error)
-                }
+                    message: String(error),
+                };
             }
             else {
                 return {
-                    ...error
-                }
+                    ...error,
+                };
             }
-        })
+        }),
     };
 };

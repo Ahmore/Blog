@@ -1,14 +1,14 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var Post = sequelize.define('Post', {
-        text: DataTypes.STRING
+        text: DataTypes.STRING,
     }, {});
-    Post.associate = function (models) {
+    Post.associate = function(models) {
         Post.belongsTo(models.User, {
             foreignKey: 'authorId',
             onDelete: 'CASCADE',
         });
-        
+
         Post.hasMany(models.Comment, {
             foreignKey: 'postId',
             as: 'comments',

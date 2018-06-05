@@ -6,18 +6,18 @@ module.exports = {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER,
             },
             text: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
             },
             updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
             },
             authorId: {
                 type: Sequelize.INTEGER,
@@ -32,5 +32,5 @@ module.exports = {
     },
     down: (queryInterface, Sequelize) => {
         return queryInterface.dropTable('Posts');
-    }
+    },
 };

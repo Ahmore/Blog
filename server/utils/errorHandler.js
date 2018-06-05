@@ -1,9 +1,9 @@
-module.exports = function (err, req, res, next) {
+module.exports = function(err, req, res, next) {
     if (err) {
         res.status(404).send({
-            errors: err
+            errors: err,
         });
     }
 
     next();
-}
+};

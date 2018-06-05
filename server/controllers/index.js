@@ -9,5 +9,5 @@ module.exports = {
     users,
     posts,
     comments,
-    follows
+    follows,
 };

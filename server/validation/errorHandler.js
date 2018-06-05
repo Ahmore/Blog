@@ -8,13 +8,13 @@ module.exports = (req, res, next) => {
             errors: errors.map(element => {
                 let error = {
                     ...element,
-                    message: element.msg
+                    message: element.msg,
                 };
 
                 delete error.msg;
-                
+
                 return error;
-            })
+            }),
         });
     }
 

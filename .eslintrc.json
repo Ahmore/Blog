@@ -1,7 +1,12 @@
 {
-    "extends": "airbnb",
-    "installedESLint": true,
-    "plugins": [
-        "react"
-    ]
+    "extends": "standard",
+    "rules": {
+        "quotes": [0],
+        "indent": ["error", 4],
+        "no-multiple-empty-lines": ["error", { "max": 4 }],
+        "semi": ["error", "always"],
+        "comma-dangle": ["error", "always-multiline"],
+        "brace-style": ["error", "stroustrup"],
+        "space-before-function-paren": ["error", "never"]
+    }
 }

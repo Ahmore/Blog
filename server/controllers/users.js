@@ -14,7 +14,7 @@ module.exports = {
                             ['createdAt', 'DESC'],
                         ],
                         offset: req.query.offset,
-                        limit: req.query.limit
+                        limit: req.query.limit,
                     })
                     .then((users) => res.status(200).send(successResponder(users, amount)))
                     .catch((error) => res.status(400).send(errorResponder(error)));
@@ -48,7 +48,7 @@ module.exports = {
 
                 return user
                     .update({
-                        role: role
+                        role: role,
                     })
                     .then(updatedUser => res.status(200).send(successResponder(updatedUser)))
                     .catch(error => res.status(400).send(errorResponder(error)));
@@ -70,5 +70,5 @@ module.exports = {
                     .catch(error => res.status(400).send(errorResponder(error)));
             })
             .catch(error => res.status(400).send(errorResponder(error)));
-    }
+    },
 };

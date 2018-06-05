@@ -19,12 +19,13 @@ app.use(expressValidator());
 app.use(cors(config.CORS));
 
 passport.use(
-    new FacebookTokenStrategy({
-        clientID: config.FACEBOOK_APP_ID,
-        clientSecret: process.env.FACEBOOK_SECRET
-    },
-        function (accessToken, refreshToken, profile, done) {
-            userAuth(accessToken, refreshToken, profile, function (err, user) {
+    new FacebookTokenStrategy(
+        {
+            clientID: config.FACEBOOK_APP_ID,
+            clientSecret: process.env.FACEBOOK_SECRET,
+        },
+        function(accessToken, refreshToken, profile, done) {
+            userAuth(accessToken, refreshToken, profile, function(err, user) {
                 return done(err, user);
             });
         }

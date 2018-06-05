@@ -6,23 +6,23 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true,
             validate: {
-                isEmail: true
-            }
+                isEmail: true,
+            },
         },
         role: {
             type: DataTypes.ENUM,
             values: ['admin', 'user'],
             allowNull: false,
-            defaultValue: 'user'
+            defaultValue: 'user',
         },
         facebookProviderId: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
         },
         facebookProviderToken: {
-            type: DataTypes.STRING
-        }
+            type: DataTypes.STRING,
+        },
     }, {});
-    User.associate = function (models) {
+    User.associate = function(models) {
         User.hasMany(models.Post, {
             foreignKey: 'authorId',
             as: 'posts',

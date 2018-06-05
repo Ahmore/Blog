@@ -1,6 +1,6 @@
 module.exports = (data, amount) => {
     let response = {
-        data: data
+        data: data,
     };
 
     if (amount) {

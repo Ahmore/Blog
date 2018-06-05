@@ -65,7 +65,7 @@ module.exports = (app) => {
     // Follows
     // Get following users
     app.get('/api/follows', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.follows.getFollows);
-    
+
     // Get followers
     app.get('/api/followers', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.follows.getFollowers);
 

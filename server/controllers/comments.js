@@ -9,14 +9,14 @@ module.exports = {
         return Comment
             .count({
                 where: {
-                    postId: req.params.postId
-                }
+                    postId: req.params.postId,
+                },
             })
             .then((amount) => {
                 return Comment
                     .findAll({
                         where: {
-                            postId: req.params.postId
+                            postId: req.params.postId,
                         },
                         include: [{
                             model: User,
@@ -27,7 +27,7 @@ module.exports = {
                             ['createdAt', 'DESC'],
                         ],
                         offset: req.query.offset,
-                        limit: req.query.limit
+                        limit: req.query.limit,
                     })
                     .then((comments) => res.status(200).send(successResponder(comments, amount)))
                     .catch((error) => res.status(400).send(errorResponder(error)));
@@ -47,7 +47,7 @@ module.exports = {
                     .create({
                         text: req.body.text,
                         postId: req.params.postId,
-                        authorId: req.auth.id
+                        authorId: req.auth.id,
                     })
                     .then((comment) => res.status(201).send(successResponder(comment)))
                     .catch((error) => res.status(400).send(errorResponder(error)));
@@ -61,7 +61,7 @@ module.exports = {
                 if (!comment) {
                     return res.status(404).send(errorResponder('Comment not found.'));
                 }
-                
+
                 if (req.auth.role !== "admin" && req.auth.id !== comment.authorId) {
                     return res.status(403).send(errorResponder('User not authorized.'));
                 }
@@ -70,7 +70,7 @@ module.exports = {
 
                 return comment
                     .update({
-                        text: text
+                        text: text,
                     })
                     .then(updatedComment => res.status(200).send(successResponder(updatedComment)))
                     .catch(error => res.status(400).send(errorResponder(error)));
@@ -85,7 +85,7 @@ module.exports = {
                 if (!comment) {
                     return res.status(404).send(errorResponder('Comment not found.'));
                 }
-                
+
                 if (req.auth.role !== "admin" && req.auth.id !== comment.authorId) {
                     return res.status(403).send(errorResponder('User not authorized.'));
                 }
@@ -96,5 +96,5 @@ module.exports = {
                     .catch(error => res.status(400).send(errorResponder(error)));
             })
             .catch(error => res.status(400).send(errorResponder(error)));
-    }
+    },
 };
