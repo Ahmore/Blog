@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/nodemon ./bin/www -w app.js -w server --exec \"npm run lint\"",
+    "start": "./node_modules/.bin/nodemon ./bin/www -w app.js -w server --exec \"npm run lint && node\"",
     "lint": "./node_modules/.bin/eslint server/ bin/ app.js",
+    "test:load": "./node_modules/.bin/artillery run load.yml",
     "test": "mocha --exit"
   },
   "keywords": [],
@@ -31,6 +32,7 @@
     "sequelize-cli": "^4.0.0"
   },
   "devDependencies": {
+    "artillery": "^1.6.0-18",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "eslint": "^4.19.1",
