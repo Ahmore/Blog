@@ -1,0 +1,12 @@
+config:
+  target: 'https://intense-hamlet-87801.herokuapp.com'
+  phases:
+    - duration: 60
+      arrivalRate: 20
+  defaults:
+    headers:
+      x-auth-token: '<access_token>'
+scenarios:
+  - flow:
+    - get:
+        url: "/api/posts"
