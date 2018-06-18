@@ -33,6 +33,9 @@ module.exports = (app) => {
     // Get all my posts including following users posts
     app.get('/api/posts', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.getAll);
 
+    // Get all users posts
+    app.get('/api/posts/all', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.getAllUsersPosts);
+
     // Get user posts
     app.get('/api/posts/:userId', controllers.auth.authenticate, controllers.auth.authorize("*"), controllers.posts.getUserPosts);
 

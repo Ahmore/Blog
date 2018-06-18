@@ -41,6 +41,29 @@ module.exports = {
         }).catch((error) => res.status(400).send(errorResponder(error)));
     },
 
+    getAllUsersPosts(req, res) {
+        return Post
+            .count()
+            .then((amount) => {
+                return Post
+                    .findAll({
+                        include: [{
+                            model: User,
+                            attributes: ['id', 'email', 'role'],
+                        }],
+                        attributes: ['id', 'text', 'createdAt', 'updatedAt'],
+                        order: [
+                            ['createdAt', 'DESC'],
+                        ],
+                        offset: req.query.offset || 0,
+                        limit: req.query.limit || null,
+                    })
+                    .then((posts) => res.status(200).send(successResponder(posts, amount)))
+                    .catch((error) => res.status(400).send(errorResponder(error)));
+            })
+            .catch((error) => res.status(400).send(errorResponder(error)));
+    },
+
     getUserPosts(req, res) {
         return Post
             .count({
@@ -62,8 +85,8 @@ module.exports = {
                         order: [
                             ['createdAt', 'DESC'],
                         ],
-                        offset: req.query.offset,
-                        limit: req.query.limit,
+                        offset: req.query.offset || 0,
+                        limit: req.query.limit || null,
                     })
                     .then((posts) => res.status(200).send(successResponder(posts, amount)))
                     .catch((error) => res.status(400).send(errorResponder(error)));
