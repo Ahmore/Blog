@@ -25,7 +25,7 @@ module.exports = {
             },
             type: Sequelize.QueryTypes.SELECT,
         }).then(data => {
-            return sequelize.query("SELECT * FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"userId\" = \"Users\".\"id\" WHERE \"Follows\".\"followerId\" = :followerId LIMIT :limit OFFSET :offset", {
+            return sequelize.query("SELECT \"Follows\".id, \"Follows\".\"createdAt\", \"Follows\".\"updatedAt\", \"Follows\".\"userId\", \"Users\".email, \"Users\".role FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"userId\" = \"Users\".\"id\" WHERE \"Follows\".\"followerId\" = :followerId LIMIT :limit OFFSET :offset", {
                 replacements: {
                     followerId: req.auth.id,
                     offset: req.query.offset || 0,
@@ -45,7 +45,7 @@ module.exports = {
             },
             type: Sequelize.QueryTypes.SELECT,
         }).then(data => {
-            return sequelize.query("SELECT * FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"followerId\" = \"Users\".\"id\" WHERE \"Follows\".\"userId\" = :userId LIMIT :limit OFFSET :offset", {
+            return sequelize.query("SELECT \"Follows\".id, \"Follows\".\"createdAt\", \"Follows\".\"updatedAt\", \"Follows\".\"followerId\", \"Users\".email, \"Users\".role FROM \"Follows\" INNER JOIN \"Users\" ON \"Follows\".\"followerId\" = \"Users\".\"id\" WHERE \"Follows\".\"userId\" = :userId LIMIT :limit OFFSET :offset", {
                 replacements: {
                     userId: req.auth.id,
                     offset: req.query.offset || 0,
